@@ -42,7 +42,10 @@ public class BookServiceImpl extends BaseServiceImpl implements IBookService {
         //方法内部创建的对象无法用mockito时行模拟，可以用PowerMockito进行模拟，请百度powerMockito.whenNew()接口
         BaseMapperImpl baseMapperTemp = new BaseMapperImpl();
         if(baseMapperTemp.selectBook()==32||"world".equals(baseMapperTemp.selectBookWithCondition(12,"hello"))){
-            System.out.println("这段代码永远不会被执行");
+            System.out.println("这段代码永远不会被执行，因为baseMapperTemp为内部创建对象，" +
+                    "非自动装载依赖，Mockito不能处理这样的Mock，因此我们无法控制它的返回值，" +
+                    "只能通过PowerMockito进行模拟，这是下一节PowerMockito的内容，" +
+                    "也可百度搜索PowerMockito进行学习");
         }
         return baseMapper.selectBookWithCondition(1, "hello test");
     }
