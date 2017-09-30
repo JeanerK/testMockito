@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/testPowerMockitos.iml" filepath="$PROJECT_DIR$/testPowerMockitos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testMockito.iml" filepath="$PROJECT_DIR$/testMockito.iml" />
     </modules>
   </component>
 </project>

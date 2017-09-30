@@ -55,13 +55,28 @@ public class ChainFactoryTest {
     @Test
     public void testChainCallHello() throws Exception {
         when(redisTemplate.opsForHash()).thenReturn(hashOperations);
-        //匹配参数进行同一个方法根据参数不同返回不同的值
+        //匹配参数进行同一个方法根据参数不同返回不同的值,第一个参数我们用参数匹配器any()，即程序执行时，接收到什么参数我都认。
+        //第二个参数因为我们需要根据参数的不同控制不同的返回值。
+        // any()匹配器不能和实际参数混用所以我们用eq("hello")把实际参数参数包起来.
         when(hashOperations.get(any(), eq("hello"))).thenReturn("hello");
         when(hashOperations.get(any(), eq("world"))).thenReturn("world");
         String s = chainFactory.chainCall();
         Assert.assertNotEquals(s,"hello world");
-    }
 
+
+        String sSeq = chainFactory.chainCall();
+        Assert.assertNotEquals(sSeq,"hello world");
+    }
+    @Test
+    public void testChainCallHelloSeq() throws Exception {
+        when(redisTemplate.opsForHash()).thenReturn(hashOperations);
+        //第二种方式解决一个方法在一次调用执行两次返回不同值，这种方式是通过方法的调用顺序来控件一个方法两次调用时返回不两只的值
+        //第一次执行返回“hello"，第二次执行返回“world”
+        when(hashOperations.get(any(), any())).thenReturn("hello").thenReturn("world");
+
+        String sSeq = chainFactory.chainCall();
+        Assert.assertNotEquals(sSeq,"hello world");
+    }
     @Test
     public void testChainCallHelloWorldSeq() throws Exception {
         when(redisTemplate.opsForHash()).thenReturn(hashOperations);
